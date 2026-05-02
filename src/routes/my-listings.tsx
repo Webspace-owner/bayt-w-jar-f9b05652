@@ -5,7 +5,7 @@ import { useAuth } from "@/lib/auth-context";
 import { Header } from "@/components/Header";
 import { ListingCard, type Listing } from "@/components/ListingCard";
 import { Button } from "@/components/ui/button";
-import { Plus, Trash2 } from "lucide-react";
+import { Plus, Trash2, Pencil } from "lucide-react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/my-listings")({
@@ -53,14 +53,21 @@ function MyListings() {
             {listings.map(l => (
               <div key={l.id} className="relative">
                 <ListingCard listing={l} />
-                <Button
-                  variant="destructive"
-                  size="sm"
-                  onClick={() => del(l.id)}
-                  className="absolute bottom-3 left-3 z-10 h-8 gap-1"
-                >
-                  <Trash2 className="h-3.5 w-3.5" /> حذف
-                </Button>
+                <div className="absolute bottom-3 left-3 z-10 flex gap-2">
+                  <Link to="/edit-listing/$id" params={{ id: l.id }}>
+                    <Button size="sm" className="h-8 gap-1">
+                      <Pencil className="h-3.5 w-3.5" /> تعديل
+                    </Button>
+                  </Link>
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    onClick={() => del(l.id)}
+                    className="h-8 gap-1"
+                  >
+                    <Trash2 className="h-3.5 w-3.5" /> حذف
+                  </Button>
+                </div>
               </div>
             ))}
           </div>

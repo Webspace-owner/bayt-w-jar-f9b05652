@@ -15,6 +15,7 @@ import { Route as MyListingsRouteImport } from './routes/my-listings'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ListingIdRouteImport } from './routes/listing.$id'
+import { Route as EditListingIdRouteImport } from './routes/edit-listing.$id'
 
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
@@ -46,6 +47,11 @@ const ListingIdRoute = ListingIdRouteImport.update({
   path: '/listing/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EditListingIdRoute = EditListingIdRouteImport.update({
+  id: '/edit-listing/$id',
+  path: '/edit-listing/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -53,6 +59,7 @@ export interface FileRoutesByFullPath {
   '/my-listings': typeof MyListingsRoute
   '/new-listing': typeof NewListingRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/edit-listing/$id': typeof EditListingIdRoute
   '/listing/$id': typeof ListingIdRoute
 }
 export interface FileRoutesByTo {
@@ -61,6 +68,7 @@ export interface FileRoutesByTo {
   '/my-listings': typeof MyListingsRoute
   '/new-listing': typeof NewListingRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/edit-listing/$id': typeof EditListingIdRoute
   '/listing/$id': typeof ListingIdRoute
 }
 export interface FileRoutesById {
@@ -70,6 +78,7 @@ export interface FileRoutesById {
   '/my-listings': typeof MyListingsRoute
   '/new-listing': typeof NewListingRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/edit-listing/$id': typeof EditListingIdRoute
   '/listing/$id': typeof ListingIdRoute
 }
 export interface FileRouteTypes {
@@ -80,6 +89,7 @@ export interface FileRouteTypes {
     | '/my-listings'
     | '/new-listing'
     | '/reset-password'
+    | '/edit-listing/$id'
     | '/listing/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -88,6 +98,7 @@ export interface FileRouteTypes {
     | '/my-listings'
     | '/new-listing'
     | '/reset-password'
+    | '/edit-listing/$id'
     | '/listing/$id'
   id:
     | '__root__'
@@ -96,6 +107,7 @@ export interface FileRouteTypes {
     | '/my-listings'
     | '/new-listing'
     | '/reset-password'
+    | '/edit-listing/$id'
     | '/listing/$id'
   fileRoutesById: FileRoutesById
 }
@@ -105,6 +117,7 @@ export interface RootRouteChildren {
   MyListingsRoute: typeof MyListingsRoute
   NewListingRoute: typeof NewListingRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  EditListingIdRoute: typeof EditListingIdRoute
   ListingIdRoute: typeof ListingIdRoute
 }
 
@@ -152,6 +165,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ListingIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/edit-listing/$id': {
+      id: '/edit-listing/$id'
+      path: '/edit-listing/$id'
+      fullPath: '/edit-listing/$id'
+      preLoaderRoute: typeof EditListingIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -161,6 +181,7 @@ const rootRouteChildren: RootRouteChildren = {
   MyListingsRoute: MyListingsRoute,
   NewListingRoute: NewListingRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  EditListingIdRoute: EditListingIdRoute,
   ListingIdRoute: ListingIdRoute,
 }
 export const routeTree = rootRouteImport
