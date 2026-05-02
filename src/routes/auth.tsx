@@ -109,10 +109,27 @@ function AuthPage() {
           </Button>
         </form>
 
+        {mode === "login" && (
+          <button
+            type="button"
+            onClick={async () => {
+              if (!email) { toast.error("أدخل بريدك الإلكتروني أولاً"); return; }
+              const { error } = await supabase.auth.resetPasswordForEmail(email, {
+                redirectTo: `${window.location.origin}/reset-password`,
+              });
+              if (error) toast.error(error.message);
+              else toast.success("تم إرسال رابط إعادة التعيين إلى بريدك");
+            }}
+            className="w-full mt-4 text-sm text-center text-primary hover:underline"
+          >
+            نسيت كلمة المرور؟
+          </button>
+        )}
+
         <button
           type="button"
           onClick={() => setMode(mode === "login" ? "signup" : "login")}
-          className="w-full mt-6 text-sm text-center text-muted-foreground hover:text-primary"
+          className="w-full mt-4 text-sm text-center text-muted-foreground hover:text-primary"
         >
           {mode === "login" ? "ليس لديك حساب؟ سجل الآن" : "لديك حساب؟ سجل دخول"}
         </button>
