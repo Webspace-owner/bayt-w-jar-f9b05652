@@ -9,12 +9,18 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as NewListingRouteImport } from './routes/new-listing'
 import { Route as MyListingsRouteImport } from './routes/my-listings'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ListingIdRouteImport } from './routes/listing.$id'
 
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const NewListingRoute = NewListingRouteImport.update({
   id: '/new-listing',
   path: '/new-listing',
@@ -46,6 +52,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/my-listings': typeof MyListingsRoute
   '/new-listing': typeof NewListingRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/listing/$id': typeof ListingIdRoute
 }
 export interface FileRoutesByTo {
@@ -53,6 +60,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/my-listings': typeof MyListingsRoute
   '/new-listing': typeof NewListingRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/listing/$id': typeof ListingIdRoute
 }
 export interface FileRoutesById {
@@ -61,19 +69,33 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/my-listings': typeof MyListingsRoute
   '/new-listing': typeof NewListingRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/listing/$id': typeof ListingIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/my-listings' | '/new-listing' | '/listing/$id'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/my-listings'
+    | '/new-listing'
+    | '/reset-password'
+    | '/listing/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/my-listings' | '/new-listing' | '/listing/$id'
+  to:
+    | '/'
+    | '/auth'
+    | '/my-listings'
+    | '/new-listing'
+    | '/reset-password'
+    | '/listing/$id'
   id:
     | '__root__'
     | '/'
     | '/auth'
     | '/my-listings'
     | '/new-listing'
+    | '/reset-password'
     | '/listing/$id'
   fileRoutesById: FileRoutesById
 }
@@ -82,11 +104,19 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   MyListingsRoute: typeof MyListingsRoute
   NewListingRoute: typeof NewListingRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   ListingIdRoute: typeof ListingIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/new-listing': {
       id: '/new-listing'
       path: '/new-listing'
@@ -130,6 +160,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   MyListingsRoute: MyListingsRoute,
   NewListingRoute: NewListingRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   ListingIdRoute: ListingIdRoute,
 }
 export const routeTree = rootRouteImport
