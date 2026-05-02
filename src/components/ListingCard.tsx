@@ -45,7 +45,7 @@ export function ListingCard({ listing }: { listing: Listing }) {
           </h3>
           <div className="text-2xl font-black text-primary">
             {listing.price.toLocaleString("ar-EG")}{" "}
-            <span className="text-sm font-medium text-muted-foreground">{listing.currency}</span>
+            <span className="text-sm font-medium text-muted-foreground">جنيه مصري</span>
           </div>
           <div className="flex items-center gap-1 text-sm text-muted-foreground">
             <MapPin className="h-3.5 w-3.5" />

@@ -92,7 +92,7 @@ function ListingDetail() {
                 <p className="text-sm text-muted-foreground mb-1">السعر</p>
                 <p className="text-4xl font-black text-primary">
                   {listing.price.toLocaleString("ar-EG")}
-                  <span className="text-lg font-medium text-muted-foreground"> {listing.currency}</span>
+                  <span className="text-lg font-medium text-muted-foreground"> جنيه مصري</span>
                 </p>
               </div>
 
