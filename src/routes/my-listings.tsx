@@ -5,7 +5,7 @@ import { useAuth } from "@/lib/auth-context";
 import { Header } from "@/components/Header";
 import { ListingCard, type Listing } from "@/components/ListingCard";
 import { Button } from "@/components/ui/button";
-import { Plus, Trash2 } from "lucide-react";
+import { Plus, Trash2, Pencil } from "lucide-react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/my-listings")({
