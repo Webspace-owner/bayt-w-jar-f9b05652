@@ -6,7 +6,7 @@ import { ListingCard, type Listing } from "@/components/ListingCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PROPERTY_TYPES } from "@/lib/constants";
-import { Search, Plus } from "lucide-react";
+import { Search, Plus, ShieldCheck, Zap, Users, BadgeCheck, Phone, Heart, TrendingUp, MapPinned } from "lucide-react";
 import heroImage from "@/assets/hero-villa.jpg";
 
 export const Route = createFileRoute("/")({
