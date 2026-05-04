@@ -107,7 +107,13 @@ export type Database = {
     }
     Enums: {
       listing_purpose: "sale" | "rent"
-      property_type: "apartment" | "villa" | "land" | "shop" | "office"
+      property_type:
+        | "apartment"
+        | "villa"
+        | "land"
+        | "shop"
+        | "office"
+        | "building"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -236,7 +242,14 @@ export const Constants = {
   public: {
     Enums: {
       listing_purpose: ["sale", "rent"],
-      property_type: ["apartment", "villa", "land", "shop", "office"],
+      property_type: [
+        "apartment",
+        "villa",
+        "land",
+        "shop",
+        "office",
+        "building",
+      ],
     },
   },
 } as const
