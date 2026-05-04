@@ -4,6 +4,7 @@ export const PROPERTY_TYPES = [
   { value: "land", label: "أراضي", icon: "🌳" },
   { value: "shop", label: "محلات", icon: "🏪" },
   { value: "office", label: "مكاتب", icon: "🏬" },
+  { value: "building", label: "عمارات", icon: "🏗️" },
 ] as const;
 
 export const PURPOSE_LABELS: Record<string, string> = {
@@ -17,4 +18,5 @@ export const PROPERTY_TYPE_LABELS: Record<string, string> = {
   land: "أرض",
   shop: "محل",
   office: "مكتب",
+  building: "عمارة",
 };
