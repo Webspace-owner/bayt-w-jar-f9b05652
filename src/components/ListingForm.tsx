@@ -21,6 +21,7 @@ const schema = z.object({
   bedrooms: z.number().int().min(0).max(50).optional(),
   bathrooms: z.number().int().min(0).max(50).optional(),
   contact_phone: z.string().trim().max(30).optional(),
+  contact_whatsapp: z.string().trim().max(30).optional(),
 });
 
 export interface ListingFormValues {
@@ -35,13 +36,14 @@ export interface ListingFormValues {
   bedrooms: string;
   bathrooms: string;
   contact_phone: string;
+  contact_whatsapp: string;
   images: string[];
 }
 
 export const emptyListingForm: ListingFormValues = {
   title: "", description: "", price: "", property_type: "",
   purpose: "", city: "", district: "", area: "", bedrooms: "",
-  bathrooms: "", contact_phone: "", images: [],
+  bathrooms: "", contact_phone: "", contact_whatsapp: "", images: [],
 };
 
 interface Props {
@@ -52,7 +54,7 @@ interface Props {
     title: string; description: string | null; price: number;
     property_type: any; purpose: any; city: string; district: string | null;
     area: number | null; bedrooms: number | null; bathrooms: number | null;
-    contact_phone: string | null; images: string[];
+    contact_phone: string | null; contact_whatsapp: string | null; images: string[];
   }) => Promise<void>;
 }
 
