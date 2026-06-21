@@ -84,6 +84,7 @@ export function ListingForm({ userId, initial, submitLabel, onSubmit }: Props) {
         bedrooms: !hideRooms && form.bedrooms ? Number(form.bedrooms) : undefined,
         bathrooms: !hideRooms && form.bathrooms ? Number(form.bathrooms) : undefined,
         contact_phone: form.contact_phone || undefined,
+        contact_whatsapp: form.contact_whatsapp || undefined,
       });
       await onSubmit({
         title: data.title,
@@ -97,6 +98,7 @@ export function ListingForm({ userId, initial, submitLabel, onSubmit }: Props) {
         bedrooms: hideRooms ? null : (data.bedrooms ?? null),
         bathrooms: hideRooms ? null : (data.bathrooms ?? null),
         contact_phone: data.contact_phone ?? null,
+        contact_whatsapp: data.contact_whatsapp ?? null,
         images: form.images,
       });
     } catch (err: any) {
