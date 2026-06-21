@@ -33,6 +33,30 @@ function ListingDetail() {
   const { id } = Route.useParams();
   const [listing, setListing] = useState<FullListing | null>(null);
   const [loading, setLoading] = useState(true);
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const [contacting, setContacting] = useState(false);
+
+  const contactOwner = async () => {
+    if (!user) { navigate({ to: "/auth" }); return; }
+    if (!listing || user.id === listing.user_id) return;
+    setContacting(true);
+    const { data: existing } = await supabase
+      .from("conversations").select("id")
+      .eq("listing_id", listing.id).eq("buyer_id", user.id).maybeSingle();
+    if (existing) {
+      setContacting(false);
+      navigate({ to: "/conversation/$id", params: { id: existing.id } });
+      return;
+    }
+    const { data, error } = await supabase.from("conversations").insert({
+      listing_id: listing.id, buyer_id: user.id, seller_id: listing.user_id,
+    }).select("id").single();
+    setContacting(false);
+    if (error) { toast.error(error.message); return; }
+    navigate({ to: "/conversation/$id", params: { id: data.id } });
+  };
+
 
   useEffect(() => {
     supabase.from("listings").select("*").eq("id", id).maybeSingle().then(({ data }) => {
