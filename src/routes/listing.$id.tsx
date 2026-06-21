@@ -161,6 +161,20 @@ function ListingDetail() {
                   </Button>
                 </a>
               )}
+
+              {listing.contact_whatsapp && (
+                <a
+                  href={`https://wa.me/${listing.contact_whatsapp.replace(/[^\d]/g, "")}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Button size="lg" variant="outline" className="w-full gap-2 border-green-600 text-green-700 hover:bg-green-50 hover:text-green-700">
+                    <MessageCircle className="h-4 w-4" />
+                    <span dir="ltr">{listing.contact_whatsapp}</span>
+                    <span>واتساب</span>
+                  </Button>
+                </a>
+              )}
             </Card>
           </div>
         </div>
