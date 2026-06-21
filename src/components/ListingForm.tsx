@@ -180,9 +180,15 @@ export function ListingForm({ userId, initial, submitLabel, onSubmit }: Props) {
         )}
       </div>
 
-      <div className="space-y-2">
-        <Label>رقم التواصل</Label>
-        <Input dir="ltr" value={form.contact_phone} onChange={e => upd("contact_phone", e.target.value)} placeholder="+20 1xxxxxxxxx" />
+      <div className="grid grid-cols-2 gap-4">
+        <div className="space-y-2">
+          <Label>رقم التليفون</Label>
+          <Input dir="ltr" value={form.contact_phone} onChange={e => upd("contact_phone", e.target.value)} placeholder="+20 1xxxxxxxxx" />
+        </div>
+        <div className="space-y-2">
+          <Label>رقم واتساب</Label>
+          <Input dir="ltr" value={form.contact_whatsapp} onChange={e => upd("contact_whatsapp", e.target.value)} placeholder="+20 1xxxxxxxxx" />
+        </div>
       </div>
 
       <div className="space-y-2">
