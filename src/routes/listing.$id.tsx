@@ -1,12 +1,14 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/lib/auth-context";
 import { Header } from "@/components/Header";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { MapPin, BedDouble, Bath, Maximize, Phone, ArrowRight } from "lucide-react";
+import { MapPin, BedDouble, Bath, Maximize, Phone, ArrowRight, MessageSquare } from "lucide-react";
 import { PROPERTY_TYPE_LABELS, PURPOSE_LABELS } from "@/lib/constants";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/listing/$id")({
   component: ListingDetail,
@@ -21,7 +23,7 @@ export const Route = createFileRoute("/listing/$id")({
 });
 
 interface FullListing {
-  id: string; title: string; description: string | null; price: number; currency: string;
+  id: string; user_id: string; title: string; description: string | null; price: number; currency: string;
   property_type: string; purpose: string; city: string; district: string | null;
   area: number | null; bedrooms: number | null; bathrooms: number | null;
   contact_phone: string | null; images: string[]; created_at: string;
