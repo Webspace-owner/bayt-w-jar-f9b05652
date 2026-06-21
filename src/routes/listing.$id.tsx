@@ -1,12 +1,14 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/lib/auth-context";
 import { Header } from "@/components/Header";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { MapPin, BedDouble, Bath, Maximize, Phone, ArrowRight } from "lucide-react";
+import { MapPin, BedDouble, Bath, Maximize, Phone, ArrowRight, MessageSquare } from "lucide-react";
 import { PROPERTY_TYPE_LABELS, PURPOSE_LABELS } from "@/lib/constants";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/listing/$id")({
   component: ListingDetail,
@@ -21,7 +23,7 @@ export const Route = createFileRoute("/listing/$id")({
 });
 
 interface FullListing {
-  id: string; title: string; description: string | null; price: number; currency: string;
+  id: string; user_id: string; title: string; description: string | null; price: number; currency: string;
   property_type: string; purpose: string; city: string; district: string | null;
   area: number | null; bedrooms: number | null; bathrooms: number | null;
   contact_phone: string | null; images: string[]; created_at: string;
@@ -31,6 +33,30 @@ function ListingDetail() {
   const { id } = Route.useParams();
   const [listing, setListing] = useState<FullListing | null>(null);
   const [loading, setLoading] = useState(true);
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const [contacting, setContacting] = useState(false);
+
+  const contactOwner = async () => {
+    if (!user) { navigate({ to: "/auth" }); return; }
+    if (!listing || user.id === listing.user_id) return;
+    setContacting(true);
+    const { data: existing } = await supabase
+      .from("conversations").select("id")
+      .eq("listing_id", listing.id).eq("buyer_id", user.id).maybeSingle();
+    if (existing) {
+      setContacting(false);
+      navigate({ to: "/conversation/$id", params: { id: existing.id } });
+      return;
+    }
+    const { data, error } = await supabase.from("conversations").insert({
+      listing_id: listing.id, buyer_id: user.id, seller_id: listing.user_id,
+    }).select("id").single();
+    setContacting(false);
+    if (error) { toast.error(error.message); return; }
+    navigate({ to: "/conversation/$id", params: { id: data.id } });
+  };
+
 
   useEffect(() => {
     supabase.from("listings").select("*").eq("id", id).maybeSingle().then(({ data }) => {
@@ -120,9 +146,16 @@ function ListingDetail() {
                 )}
               </div>
 
+              {user?.id !== listing.user_id && (
+                <Button size="lg" className="w-full gap-2" onClick={contactOwner} disabled={contacting}>
+                  <MessageSquare className="h-4 w-4" />
+                  مراسلة المعلن
+                </Button>
+              )}
+
               {listing.contact_phone && (
                 <a href={`tel:${listing.contact_phone}`}>
-                  <Button size="lg" className="w-full gap-2">
+                  <Button size="lg" variant="outline" className="w-full gap-2">
                     <Phone className="h-4 w-4" />
                     <span dir="ltr">{listing.contact_phone}</span>
                   </Button>

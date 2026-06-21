@@ -12,10 +12,13 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as NewListingRouteImport } from './routes/new-listing'
 import { Route as MyListingsRouteImport } from './routes/my-listings'
+import { Route as MessagesRouteImport } from './routes/messages'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ListingIdRouteImport } from './routes/listing.$id'
 import { Route as EditListingIdRouteImport } from './routes/edit-listing.$id'
+import { Route as ConversationIdRouteImport } from './routes/conversation.$id'
 
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
@@ -32,9 +35,19 @@ const MyListingsRoute = MyListingsRouteImport.update({
   path: '/my-listings',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MessagesRoute = MessagesRouteImport.update({
+  id: '/messages',
+  path: '/messages',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -52,32 +65,46 @@ const EditListingIdRoute = EditListingIdRouteImport.update({
   path: '/edit-listing/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ConversationIdRoute = ConversationIdRouteImport.update({
+  id: '/conversation/$id',
+  path: '/conversation/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/auth': typeof AuthRoute
+  '/messages': typeof MessagesRoute
   '/my-listings': typeof MyListingsRoute
   '/new-listing': typeof NewListingRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/conversation/$id': typeof ConversationIdRoute
   '/edit-listing/$id': typeof EditListingIdRoute
   '/listing/$id': typeof ListingIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/auth': typeof AuthRoute
+  '/messages': typeof MessagesRoute
   '/my-listings': typeof MyListingsRoute
   '/new-listing': typeof NewListingRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/conversation/$id': typeof ConversationIdRoute
   '/edit-listing/$id': typeof EditListingIdRoute
   '/listing/$id': typeof ListingIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/auth': typeof AuthRoute
+  '/messages': typeof MessagesRoute
   '/my-listings': typeof MyListingsRoute
   '/new-listing': typeof NewListingRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/conversation/$id': typeof ConversationIdRoute
   '/edit-listing/$id': typeof EditListingIdRoute
   '/listing/$id': typeof ListingIdRoute
 }
@@ -85,38 +112,50 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
     | '/auth'
+    | '/messages'
     | '/my-listings'
     | '/new-listing'
     | '/reset-password'
+    | '/conversation/$id'
     | '/edit-listing/$id'
     | '/listing/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/admin'
     | '/auth'
+    | '/messages'
     | '/my-listings'
     | '/new-listing'
     | '/reset-password'
+    | '/conversation/$id'
     | '/edit-listing/$id'
     | '/listing/$id'
   id:
     | '__root__'
     | '/'
+    | '/admin'
     | '/auth'
+    | '/messages'
     | '/my-listings'
     | '/new-listing'
     | '/reset-password'
+    | '/conversation/$id'
     | '/edit-listing/$id'
     | '/listing/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRoute
   AuthRoute: typeof AuthRoute
+  MessagesRoute: typeof MessagesRoute
   MyListingsRoute: typeof MyListingsRoute
   NewListingRoute: typeof NewListingRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  ConversationIdRoute: typeof ConversationIdRoute
   EditListingIdRoute: typeof EditListingIdRoute
   ListingIdRoute: typeof ListingIdRoute
 }
@@ -144,11 +183,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MyListingsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/messages': {
+      id: '/messages'
+      path: '/messages'
+      fullPath: '/messages'
+      preLoaderRoute: typeof MessagesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth': {
       id: '/auth'
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -172,27 +225,28 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EditListingIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/conversation/$id': {
+      id: '/conversation/$id'
+      path: '/conversation/$id'
+      fullPath: '/conversation/$id'
+      preLoaderRoute: typeof ConversationIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRoute,
   AuthRoute: AuthRoute,
+  MessagesRoute: MessagesRoute,
   MyListingsRoute: MyListingsRoute,
   NewListingRoute: NewListingRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  ConversationIdRoute: ConversationIdRoute,
   EditListingIdRoute: EditListingIdRoute,
   ListingIdRoute: ListingIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-  }
-}
