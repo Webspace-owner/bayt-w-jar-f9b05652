@@ -56,6 +56,7 @@ export type Database = {
           bedrooms: number | null
           city: string
           contact_phone: string | null
+          contact_whatsapp: string | null
           created_at: string
           currency: string
           description: string | null
@@ -75,6 +76,7 @@ export type Database = {
           bedrooms?: number | null
           city: string
           contact_phone?: string | null
+          contact_whatsapp?: string | null
           created_at?: string
           currency?: string
           description?: string | null
@@ -94,6 +96,7 @@ export type Database = {
           bedrooms?: number | null
           city?: string
           contact_phone?: string | null
+          contact_whatsapp?: string | null
           created_at?: string
           currency?: string
           description?: string | null
