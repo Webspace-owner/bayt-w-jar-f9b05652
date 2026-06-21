@@ -39,6 +39,7 @@ function EditListing() {
         bedrooms: data.bedrooms != null ? String(data.bedrooms) : "",
         bathrooms: data.bathrooms != null ? String(data.bathrooms) : "",
         contact_phone: data.contact_phone ?? "",
+        contact_whatsapp: (data as any).contact_whatsapp ?? "",
         images: data.images ?? [],
       });
     });

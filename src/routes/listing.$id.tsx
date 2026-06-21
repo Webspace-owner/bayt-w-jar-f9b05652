@@ -6,7 +6,7 @@ import { Header } from "@/components/Header";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { MapPin, BedDouble, Bath, Maximize, Phone, ArrowRight, MessageSquare } from "lucide-react";
+import { MapPin, BedDouble, Bath, Maximize, Phone, ArrowRight, MessageSquare, MessageCircle } from "lucide-react";
 import { PROPERTY_TYPE_LABELS, PURPOSE_LABELS } from "@/lib/constants";
 import { toast } from "sonner";
 
@@ -26,7 +26,7 @@ interface FullListing {
   id: string; user_id: string; title: string; description: string | null; price: number; currency: string;
   property_type: string; purpose: string; city: string; district: string | null;
   area: number | null; bedrooms: number | null; bathrooms: number | null;
-  contact_phone: string | null; images: string[]; created_at: string;
+  contact_phone: string | null; contact_whatsapp: string | null; images: string[]; created_at: string;
 }
 
 function ListingDetail() {
@@ -158,6 +158,20 @@ function ListingDetail() {
                   <Button size="lg" variant="outline" className="w-full gap-2">
                     <Phone className="h-4 w-4" />
                     <span dir="ltr">{listing.contact_phone}</span>
+                  </Button>
+                </a>
+              )}
+
+              {listing.contact_whatsapp && (
+                <a
+                  href={`https://wa.me/${listing.contact_whatsapp.replace(/[^\d]/g, "")}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Button size="lg" variant="outline" className="w-full gap-2 border-green-600 text-green-700 hover:bg-green-50 hover:text-green-700">
+                    <MessageCircle className="h-4 w-4" />
+                    <span dir="ltr">{listing.contact_whatsapp}</span>
+                    <span>واتساب</span>
                   </Button>
                 </a>
               )}

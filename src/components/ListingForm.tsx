@@ -21,6 +21,7 @@ const schema = z.object({
   bedrooms: z.number().int().min(0).max(50).optional(),
   bathrooms: z.number().int().min(0).max(50).optional(),
   contact_phone: z.string().trim().max(30).optional(),
+  contact_whatsapp: z.string().trim().max(30).optional(),
 });
 
 export interface ListingFormValues {
@@ -35,13 +36,14 @@ export interface ListingFormValues {
   bedrooms: string;
   bathrooms: string;
   contact_phone: string;
+  contact_whatsapp: string;
   images: string[];
 }
 
 export const emptyListingForm: ListingFormValues = {
   title: "", description: "", price: "", property_type: "",
   purpose: "", city: "", district: "", area: "", bedrooms: "",
-  bathrooms: "", contact_phone: "", images: [],
+  bathrooms: "", contact_phone: "", contact_whatsapp: "", images: [],
 };
 
 interface Props {
@@ -52,7 +54,7 @@ interface Props {
     title: string; description: string | null; price: number;
     property_type: any; purpose: any; city: string; district: string | null;
     area: number | null; bedrooms: number | null; bathrooms: number | null;
-    contact_phone: string | null; images: string[];
+    contact_phone: string | null; contact_whatsapp: string | null; images: string[];
   }) => Promise<void>;
 }
 
@@ -82,6 +84,7 @@ export function ListingForm({ userId, initial, submitLabel, onSubmit }: Props) {
         bedrooms: !hideRooms && form.bedrooms ? Number(form.bedrooms) : undefined,
         bathrooms: !hideRooms && form.bathrooms ? Number(form.bathrooms) : undefined,
         contact_phone: form.contact_phone || undefined,
+        contact_whatsapp: form.contact_whatsapp || undefined,
       });
       await onSubmit({
         title: data.title,
@@ -95,6 +98,7 @@ export function ListingForm({ userId, initial, submitLabel, onSubmit }: Props) {
         bedrooms: hideRooms ? null : (data.bedrooms ?? null),
         bathrooms: hideRooms ? null : (data.bathrooms ?? null),
         contact_phone: data.contact_phone ?? null,
+        contact_whatsapp: data.contact_whatsapp ?? null,
         images: form.images,
       });
     } catch (err: any) {
@@ -176,9 +180,15 @@ export function ListingForm({ userId, initial, submitLabel, onSubmit }: Props) {
         )}
       </div>
 
-      <div className="space-y-2">
-        <Label>رقم التواصل</Label>
-        <Input dir="ltr" value={form.contact_phone} onChange={e => upd("contact_phone", e.target.value)} placeholder="+20 1xxxxxxxxx" />
+      <div className="grid grid-cols-2 gap-4">
+        <div className="space-y-2">
+          <Label>رقم التليفون</Label>
+          <Input dir="ltr" value={form.contact_phone} onChange={e => upd("contact_phone", e.target.value)} placeholder="+20 1xxxxxxxxx" />
+        </div>
+        <div className="space-y-2">
+          <Label>رقم واتساب</Label>
+          <Input dir="ltr" value={form.contact_whatsapp} onChange={e => upd("contact_whatsapp", e.target.value)} placeholder="+20 1xxxxxxxxx" />
+        </div>
       </div>
 
       <div className="space-y-2">
