@@ -146,9 +146,16 @@ function ListingDetail() {
                 )}
               </div>
 
+              {user?.id !== listing.user_id && (
+                <Button size="lg" className="w-full gap-2" onClick={contactOwner} disabled={contacting}>
+                  <MessageSquare className="h-4 w-4" />
+                  مراسلة المعلن
+                </Button>
+              )}
+
               {listing.contact_phone && (
                 <a href={`tel:${listing.contact_phone}`}>
-                  <Button size="lg" className="w-full gap-2">
+                  <Button size="lg" variant="outline" className="w-full gap-2">
                     <Phone className="h-4 w-4" />
                     <span dir="ltr">{listing.contact_phone}</span>
                   </Button>
