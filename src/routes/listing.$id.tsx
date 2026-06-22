@@ -59,13 +59,9 @@ function ListingDetail() {
 
   const openWhatsApp = (phone: string) => {
     const num = phone.replace(/[^\d]/g, "");
-    const appUrl = `whatsapp://send?phone=${num}`;
     const webUrl = `https://web.whatsapp.com/send?phone=${num}`;
 
-    window.location.href = appUrl;
-    window.setTimeout(() => {
-      window.open(webUrl, "_blank", "noopener,noreferrer");
-    }, 700);
+    window.open(webUrl, "_blank", "noopener,noreferrer");
   };
 
 
