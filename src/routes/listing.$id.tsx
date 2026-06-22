@@ -57,6 +57,17 @@ function ListingDetail() {
     navigate({ to: "/conversation/$id", params: { id: data.id } });
   };
 
+  const openWhatsApp = (phone: string) => {
+    const num = phone.replace(/[^\d]/g, "");
+    const appUrl = `whatsapp://send?phone=${num}`;
+    const webUrl = `https://web.whatsapp.com/send?phone=${num}`;
+
+    window.location.href = appUrl;
+    window.setTimeout(() => {
+      window.open(webUrl, "_blank", "noopener,noreferrer");
+    }, 700);
+  };
+
 
   useEffect(() => {
     supabase.from("listings").select("*").eq("id", id).maybeSingle().then(({ data }) => {
@@ -167,10 +178,7 @@ function ListingDetail() {
                   size="lg"
                   variant="outline"
                   className="w-full gap-2 border-green-600 text-green-700 hover:bg-green-50 hover:text-green-700"
-                  onClick={() => {
-                    const num = listing.contact_whatsapp!.replace(/[^\d]/g, "");
-                    window.open(`https://wa.me/${num}`, "_blank", "noopener,noreferrer");
-                  }}
+                  onClick={() => openWhatsApp(listing.contact_whatsapp!)}
                 >
                   <MessageCircle className="h-4 w-4" />
                   <span dir="ltr">{listing.contact_whatsapp}</span>
