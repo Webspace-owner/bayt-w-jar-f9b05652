@@ -59,7 +59,11 @@ function ListingDetail() {
 
   const openWhatsApp = (phone: string) => {
     const num = phone.replace(/[^\d]/g, "");
-    const whatsappUrl = `https://wa.me/${num}`;
+    const listingUrl = typeof window !== "undefined" ? window.location.href : "";
+    const msg = listing
+      ? `السلام عليكم، أنا مهتم بالإعلان ده:\n\n${listing.title}\nالسعر: ${listing.price.toLocaleString("ar-EG")} جنيه مصري\nالموقع: ${listing.city}${listing.district ? ` - ${listing.district}` : ""}\n\n${listingUrl}`
+      : "";
+    const whatsappUrl = `https://wa.me/${num}?text=${encodeURIComponent(msg)}`;
 
     try {
       if (window.top && window.top !== window) {
