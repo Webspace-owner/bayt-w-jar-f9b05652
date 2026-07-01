@@ -58,7 +58,7 @@ function Index() {
         <div className="relative container mx-auto px-4 py-20 md:py-32 text-center text-primary-foreground">
           <div className="inline-flex items-center gap-2 bg-background/15 backdrop-blur px-4 py-1.5 rounded-full text-sm font-medium mb-6 border border-background/20">
             <BadgeCheck className="h-4 w-4" />
-            منصة موثوقة لآلاف العملاء في مصر
+            مو موثوقة لآلاف العملاء في مصر
           </div>
           <h1 className="text-6xl md:text-8xl font-black mb-4 tracking-tight drop-shadow-lg">دار</h1>
           <p className="text-xl md:text-2xl font-medium mb-2 opacity-95">سوق العقارات الأول في مصر</p>
