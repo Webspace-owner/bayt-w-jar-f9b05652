@@ -59,7 +59,8 @@ function ListingDetail() {
 
   const openWhatsApp = (phone: string) => {
     const num = phone.replace(/[^\d]/g, "");
-    const listingUrl = typeof window !== "undefined" ? window.location.href : "";
+    const PUBLIC_DOMAIN = "https://dar-eg.online";
+    const listingUrl = listing ? `${PUBLIC_DOMAIN}/listing/${listing.id}` : PUBLIC_DOMAIN;
     const msg = listing
       ? `السلام عليكم، أنا مهتم بالإعلان ده:\n\n${listing.title}\nالسعر: ${listing.price.toLocaleString("ar-EG")} جنيه مصري\nالموقع: ${listing.city}${listing.district ? ` - ${listing.district}` : ""}\n\n${listingUrl}`
       : "";
