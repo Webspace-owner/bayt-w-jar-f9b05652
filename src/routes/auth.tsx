@@ -43,7 +43,7 @@ function AuthPage() {
     try {
       if (mode === "signup") {
         const v = signupSchema.parse({ fullName, email, password });
-        const { error } = await supabase.auth.signUp({
+        const { data, error } = await supabase.auth.signUp({
           email: v.email,
           password: v.password,
           options: {
@@ -52,8 +52,13 @@ function AuthPage() {
           },
         });
         if (error) throw error;
-        toast.success("تم إنشاء حسابك بنجاح!");
-        navigate({ to: "/" });
+        if (data.session) {
+          toast.success("تم إنشاء حسابك بنجاح!");
+          navigate({ to: "/" });
+        } else {
+          toast.success("بعتنالك إيميل تأكيد، افتحه واضغط على الرابط لتفعيل حسابك");
+          setMode("login");
+        }
       } else {
         const v = loginSchema.parse({ email, password });
         const { error } = await supabase.auth.signInWithPassword({
