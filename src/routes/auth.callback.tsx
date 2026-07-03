@@ -41,7 +41,7 @@ function AuthCallbackPage() {
 
         window.setTimeout(() => {
           if (type === "recovery") navigate({ to: "/reset-password", replace: true });
-          else navigate({ to: next, replace: true });
+          else window.location.replace(next);
         }, 900);
       } catch {
         if (!active) return;
