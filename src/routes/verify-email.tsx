@@ -4,8 +4,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 
-export const Route = createFileRoute("/auth/callback")({
-  component: AuthCallbackPage,
+export const Route = createFileRoute("/verify-email")({
+  component: VerifyEmailPage,
 });
 
 function getSafeNext(value: string | null) {
@@ -13,7 +13,7 @@ function getSafeNext(value: string | null) {
   return value;
 }
 
-function AuthCallbackPage() {
+function VerifyEmailPage() {
   const navigate = useNavigate();
   const [status, setStatus] = useState("بنأكد بريدك الإلكتروني...");
   const [failed, setFailed] = useState(false);
@@ -21,10 +21,9 @@ function AuthCallbackPage() {
   useEffect(() => {
     let active = true;
 
-    const finishAuth = async () => {
+    const finishVerification = async () => {
       const url = new URL(window.location.href);
       const code = url.searchParams.get("code");
-      const type = url.searchParams.get("type");
       const next = getSafeNext(url.searchParams.get("next"));
 
       try {
@@ -37,12 +36,8 @@ function AuthCallbackPage() {
         }
 
         if (!active) return;
-        setStatus(type === "recovery" ? "تم التأكيد، هتقدر تغيّر كلمة المرور دلوقتي." : "تم تأكيد البريد بنجاح.");
-
-        window.setTimeout(() => {
-          if (type === "recovery") navigate({ to: "/reset-password", replace: true });
-          else window.location.replace(next);
-        }, 900);
+        setStatus("تم تأكيد البريد بنجاح.");
+        window.setTimeout(() => window.location.replace(next), 900);
       } catch {
         if (!active) return;
         setFailed(true);
@@ -50,11 +45,11 @@ function AuthCallbackPage() {
       }
     };
 
-    finishAuth();
+    finishVerification();
     return () => {
       active = false;
     };
-  }, [navigate]);
+  }, []);
 
   return (
     <div className="min-h-screen bg-background px-4 py-16 flex items-center justify-center">
