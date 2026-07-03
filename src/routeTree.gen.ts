@@ -19,6 +19,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ListingIdRouteImport } from './routes/listing.$id'
 import { Route as EditListingIdRouteImport } from './routes/edit-listing.$id'
 import { Route as ConversationIdRouteImport } from './routes/conversation.$id'
+import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
 import { Route as LovableEmailQueueProcessRouteImport } from './routes/lovable/email/queue/process'
 import { Route as LovableEmailAuthWebhookRouteImport } from './routes/lovable/email/auth/webhook'
 import { Route as LovableEmailAuthPreviewRouteImport } from './routes/lovable/email/auth/preview'
@@ -73,6 +74,11 @@ const ConversationIdRoute = ConversationIdRouteImport.update({
   path: '/conversation/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthCallbackRoute = AuthCallbackRouteImport.update({
+  id: '/callback',
+  path: '/callback',
+  getParentRoute: () => AuthRoute,
+} as any)
 const LovableEmailQueueProcessRoute =
   LovableEmailQueueProcessRouteImport.update({
     id: '/lovable/email/queue/process',
@@ -93,11 +99,12 @@ const LovableEmailAuthPreviewRoute = LovableEmailAuthPreviewRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
-  '/auth': typeof AuthRoute
+  '/auth': typeof AuthRouteWithChildren
   '/messages': typeof MessagesRoute
   '/my-listings': typeof MyListingsRoute
   '/new-listing': typeof NewListingRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/auth/callback': typeof AuthCallbackRoute
   '/conversation/$id': typeof ConversationIdRoute
   '/edit-listing/$id': typeof EditListingIdRoute
   '/listing/$id': typeof ListingIdRoute
@@ -108,11 +115,12 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
-  '/auth': typeof AuthRoute
+  '/auth': typeof AuthRouteWithChildren
   '/messages': typeof MessagesRoute
   '/my-listings': typeof MyListingsRoute
   '/new-listing': typeof NewListingRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/auth/callback': typeof AuthCallbackRoute
   '/conversation/$id': typeof ConversationIdRoute
   '/edit-listing/$id': typeof EditListingIdRoute
   '/listing/$id': typeof ListingIdRoute
@@ -124,11 +132,12 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
-  '/auth': typeof AuthRoute
+  '/auth': typeof AuthRouteWithChildren
   '/messages': typeof MessagesRoute
   '/my-listings': typeof MyListingsRoute
   '/new-listing': typeof NewListingRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/auth/callback': typeof AuthCallbackRoute
   '/conversation/$id': typeof ConversationIdRoute
   '/edit-listing/$id': typeof EditListingIdRoute
   '/listing/$id': typeof ListingIdRoute
@@ -146,6 +155,7 @@ export interface FileRouteTypes {
     | '/my-listings'
     | '/new-listing'
     | '/reset-password'
+    | '/auth/callback'
     | '/conversation/$id'
     | '/edit-listing/$id'
     | '/listing/$id'
@@ -161,6 +171,7 @@ export interface FileRouteTypes {
     | '/my-listings'
     | '/new-listing'
     | '/reset-password'
+    | '/auth/callback'
     | '/conversation/$id'
     | '/edit-listing/$id'
     | '/listing/$id'
@@ -176,6 +187,7 @@ export interface FileRouteTypes {
     | '/my-listings'
     | '/new-listing'
     | '/reset-password'
+    | '/auth/callback'
     | '/conversation/$id'
     | '/edit-listing/$id'
     | '/listing/$id'
@@ -187,7 +199,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRoute
-  AuthRoute: typeof AuthRoute
+  AuthRoute: typeof AuthRouteWithChildren
   MessagesRoute: typeof MessagesRoute
   MyListingsRoute: typeof MyListingsRoute
   NewListingRoute: typeof NewListingRoute
@@ -272,6 +284,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ConversationIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth/callback': {
+      id: '/auth/callback'
+      path: '/callback'
+      fullPath: '/auth/callback'
+      preLoaderRoute: typeof AuthCallbackRouteImport
+      parentRoute: typeof AuthRoute
+    }
     '/lovable/email/queue/process': {
       id: '/lovable/email/queue/process'
       path: '/lovable/email/queue/process'
@@ -296,10 +315,20 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AuthRouteChildren {
+  AuthCallbackRoute: typeof AuthCallbackRoute
+}
+
+const AuthRouteChildren: AuthRouteChildren = {
+  AuthCallbackRoute: AuthCallbackRoute,
+}
+
+const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
-  AuthRoute: AuthRoute,
+  AuthRoute: AuthRouteWithChildren,
   MessagesRoute: MessagesRoute,
   MyListingsRoute: MyListingsRoute,
   NewListingRoute: NewListingRoute,

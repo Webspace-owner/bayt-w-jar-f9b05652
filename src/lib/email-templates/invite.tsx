@@ -23,24 +23,26 @@ export const InviteEmail = ({
   siteUrl,
   confirmationUrl,
 }: InviteEmailProps) => (
-  <Html lang="ar" dir="rtl">
+  <Html lang="en" dir="ltr">
     <Head />
-    <Preview>تمت دعوتك للانضمام إلى {siteName}</Preview>
+    <Preview>You've been invited to join {siteName}</Preview>
     <Body style={main}>
       <Container style={container}>
-        <Heading style={h1}>تمت دعوتك</Heading>
+        <Heading style={h1}>You've been invited</Heading>
         <Text style={text}>
-          تمت دعوتك للانضمام إلى{' '}
+          You've been invited to join{' '}
           <Link href={siteUrl} style={link}>
             <strong>{siteName}</strong>
           </Link>
-          . اضغط على الزر ده عشان تقبل الدعوة وتعمل حسابك.
+          . Click the button below to accept the invitation and create your
+          account.
         </Text>
         <Button style={button} href={confirmationUrl}>
-          قبول الدعوة
+          Accept Invitation
         </Button>
         <Text style={footer}>
-          لو مكنتش مستني الدعوة دي، تقدر تتجاهل الإيميل.
+          If you weren't expecting this invitation, you can safely ignore this
+          email.
         </Text>
       </Container>
     </Body>
@@ -49,7 +51,7 @@ export const InviteEmail = ({
 
 export default InviteEmail
 
-const main = { backgroundColor: '#ffffff', fontFamily: 'Tahoma, Arial, sans-serif' }
+const main = { backgroundColor: '#ffffff', fontFamily: 'Arial, sans-serif' }
 const container = { padding: '20px 25px' }
 const h1 = {
   fontSize: '22px',
@@ -60,7 +62,7 @@ const h1 = {
 const text = {
   fontSize: '14px',
   color: '#55575d',
-  lineHeight: '1.7',
+  lineHeight: '1.5',
   margin: '0 0 25px',
 }
 const link = { color: 'inherit', textDecoration: 'underline' }
