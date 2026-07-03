@@ -12,12 +12,12 @@ import { EmailChangeEmail } from '@/lib/email-templates/email-change'
 import { ReauthenticationEmail } from '@/lib/email-templates/reauthentication'
 
 const EMAIL_SUBJECTS: Record<string, string> = {
-  signup: 'Confirm your email',
-  invite: "You've been invited",
-  magiclink: 'Your login link',
-  recovery: 'Reset your password',
-  email_change: 'Confirm your new email',
-  reauthentication: 'Your verification code',
+  signup: 'أكّد بريدك الإلكتروني',
+  invite: 'تمت دعوتك للانضمام',
+  magiclink: 'رابط الدخول بتاعك',
+  recovery: 'إعادة تعيين كلمة المرور',
+  email_change: 'أكّد بريدك الإلكتروني الجديد',
+  reauthentication: 'كود التحقق بتاعك',
 }
 
 // Template mapping
@@ -31,7 +31,7 @@ const EMAIL_TEMPLATES: Record<string, React.ComponentType<any>> = {
 }
 
 // Configuration
-const SITE_NAME = "bayt-w-jar"
+const SITE_NAME = "دار"
 const SENDER_DOMAIN = "notify.dar-eg.online"
 const ROOT_DOMAIN = "dar-eg.online"
 const FROM_DOMAIN = "notify.dar-eg.online"
@@ -41,6 +41,11 @@ function redactEmail(email: string | null | undefined): string {
   const [localPart, domain] = email.split('@')
   if (!localPart || !domain) return '***'
   return `${localPart[0]}***@${domain}`
+}
+
+function getConfirmationUrl(data: Record<string, unknown>): string | undefined {
+  const url = (data as any).url || (data as any).confirmation_url || (data as any).confirmationUrl
+  return typeof url === 'string' && url.startsWith('http') ? url : undefined
 }
 
 export const Route = createFileRoute("/lovable/email/auth/webhook")({
@@ -131,12 +136,18 @@ export const Route = createFileRoute("/lovable/email/auth/webhook")({
           )
         }
 
+        const confirmationUrl = getConfirmationUrl(payload.data)
+        if (emailType !== 'reauthentication' && !confirmationUrl) {
+          console.error('Auth email payload missing confirmation URL', { emailType, run_id })
+          return Response.json({ error: 'Invalid webhook payload' }, { status: 400 })
+        }
+
         // Build template props from payload.data (HookData structure)
         const templateProps = {
           siteName: SITE_NAME,
           siteUrl: `https://${ROOT_DOMAIN}`,
           recipient: payload.data.email,
-          confirmationUrl: payload.data.url,
+          confirmationUrl,
           token: payload.data.token,
           email: payload.data.email,
           oldEmail: payload.data.old_email,
