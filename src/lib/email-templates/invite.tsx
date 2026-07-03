@@ -30,7 +30,7 @@ export const InviteEmail = ({
       <Container style={container}>
         <Heading style={h1}>تمت دعوتك</Heading>
         <Text style={text}>
-          إنت متدعو للانضمام إلى{' '}
+          تمت دعوتك للانضمام إلى{' '}
           <Link href={siteUrl} style={link}>
             <strong>{siteName}</strong>
           </Link>
@@ -39,7 +39,9 @@ export const InviteEmail = ({
         <Button style={button} href={confirmationUrl}>
           قبول الدعوة
         </Button>
-        <Text style={footer}>لو مكنتش مستني الدعوة دي، تجاهل الإيميل.</Text>
+        <Text style={footer}>
+          لو مكنتش مستني الدعوة دي، تقدر تتجاهل الإيميل.
+        </Text>
       </Container>
     </Body>
   </Html>
@@ -49,8 +51,25 @@ export default InviteEmail
 
 const main = { backgroundColor: '#ffffff', fontFamily: 'Tahoma, Arial, sans-serif' }
 const container = { padding: '20px 25px' }
-const h1 = { fontSize: '22px', fontWeight: 'bold' as const, color: '#000000', margin: '0 0 20px' }
-const text = { fontSize: '14px', color: '#55575d', lineHeight: '1.7', margin: '0 0 25px' }
+const h1 = {
+  fontSize: '22px',
+  fontWeight: 'bold' as const,
+  color: '#000000',
+  margin: '0 0 20px',
+}
+const text = {
+  fontSize: '14px',
+  color: '#55575d',
+  lineHeight: '1.7',
+  margin: '0 0 25px',
+}
 const link = { color: 'inherit', textDecoration: 'underline' }
-const button = { backgroundColor: '#000000', color: '#ffffff', fontSize: '14px', borderRadius: '8px', padding: '12px 20px', textDecoration: 'none' }
+const button = {
+  backgroundColor: '#000000',
+  color: '#ffffff',
+  fontSize: '14px',
+  borderRadius: '8px',
+  padding: '12px 20px',
+  textDecoration: 'none',
+}
 const footer = { fontSize: '12px', color: '#999999', margin: '30px 0 0' }
