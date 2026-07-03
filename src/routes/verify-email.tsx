@@ -17,38 +17,56 @@ function VerifyEmailPage() {
   const navigate = useNavigate();
   const [status, setStatus] = useState("بنأكد بريدك الإلكتروني...");
   const [failed, setFailed] = useState(false);
+  const [details, setDetails] = useState<string | null>(null);
 
   useEffect(() => {
     let active = true;
 
-    const finishVerification = async () => {
+    const finish = async () => {
       const url = new URL(window.location.href);
-      const code = url.searchParams.get("code");
-      const next = getSafeNext(url.searchParams.get("next"));
+      const params = url.searchParams;
+      const hash = new URLSearchParams(url.hash.replace(/^#/, ""));
+      const next = getSafeNext(params.get("next") || hash.get("next"));
+
+      const code = params.get("code");
+      const tokenHash = params.get("token_hash") || params.get("token");
+      const type = (params.get("type") || "signup") as any;
+      const errorDesc = params.get("error_description") || hash.get("error_description");
 
       try {
+        if (errorDesc) throw new Error(errorDesc);
+
         if (code) {
           const { error } = await supabase.auth.exchangeCodeForSession(code);
           if (error) throw error;
-        } else {
-          const { error } = await supabase.auth.getSession();
+        } else if (tokenHash) {
+          const { error } = await supabase.auth.verifyOtp({ token_hash: tokenHash, type });
           if (error) throw error;
+        } else if (hash.get("access_token") && hash.get("refresh_token")) {
+          const { error } = await supabase.auth.setSession({
+            access_token: hash.get("access_token")!,
+            refresh_token: hash.get("refresh_token")!,
+          });
+          if (error) throw error;
+        } else {
+          const { data, error } = await supabase.auth.getSession();
+          if (error) throw error;
+          if (!data.session) throw new Error("مافيش كود تأكيد في الرابط");
         }
 
         if (!active) return;
         setStatus("تم تأكيد البريد بنجاح.");
         window.setTimeout(() => window.location.replace(next), 900);
-      } catch {
+      } catch (e: any) {
         if (!active) return;
         setFailed(true);
         setStatus("رابط التأكيد غير صالح أو انتهت صلاحيته. جرّب تبعت إيميل تأكيد جديد.");
+        setDetails(e?.message || null);
       }
     };
 
-    finishVerification();
-    return () => {
-      active = false;
-    };
+    finish();
+    return () => { active = false; };
   }, []);
 
   return (
@@ -58,7 +76,8 @@ function VerifyEmailPage() {
           د
         </div>
         <h1 className="text-2xl font-black mb-3">تأكيد الحساب</h1>
-        <p className="text-muted-foreground leading-7 mb-6">{status}</p>
+        <p className="text-muted-foreground leading-7 mb-4">{status}</p>
+        {details && <p className="text-xs text-muted-foreground/70 mb-4 break-all">{details}</p>}
         {failed && (
           <Button onClick={() => navigate({ to: "/auth" })} className="w-full">
             ارجع لتسجيل الدخول
