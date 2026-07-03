@@ -20,22 +20,20 @@ export const RecoveryEmail = ({
   siteName,
   confirmationUrl,
 }: RecoveryEmailProps) => (
-  <Html lang="en" dir="ltr">
+  <Html lang="ar" dir="rtl">
     <Head />
-    <Preview>Reset your password for {siteName}</Preview>
+    <Preview>إعادة تعيين كلمة المرور على {siteName}</Preview>
     <Body style={main}>
       <Container style={container}>
-        <Heading style={h1}>Reset your password</Heading>
+        <Heading style={h1}>إعادة تعيين كلمة المرور</Heading>
         <Text style={text}>
-          We received a request to reset your password for {siteName}. Click
-          the button below to choose a new password.
+          استلمنا طلب لإعادة تعيين كلمة المرور بتاعتك على {siteName}. اضغط على الزر ده عشان تختار كلمة مرور جديدة.
         </Text>
         <Button style={button} href={confirmationUrl}>
-          Reset Password
+          إعادة تعيين كلمة المرور
         </Button>
         <Text style={footer}>
-          If you didn't request a password reset, you can safely ignore this
-          email. Your password will not be changed.
+          لو مش إنت اللي طلبت ده، تجاهل الإيميل وكلمة المرور مش هتتغير.
         </Text>
       </Container>
     </Body>
@@ -44,7 +42,7 @@ export const RecoveryEmail = ({
 
 export default RecoveryEmail
 
-const main = { backgroundColor: '#ffffff', fontFamily: 'Arial, sans-serif' }
+const main = { backgroundColor: '#ffffff', fontFamily: 'Tahoma, Arial, sans-serif' }
 const container = { padding: '20px 25px' }
 const h1 = {
   fontSize: '22px',
@@ -55,7 +53,7 @@ const h1 = {
 const text = {
   fontSize: '14px',
   color: '#55575d',
-  lineHeight: '1.5',
+  lineHeight: '1.7',
   margin: '0 0 25px',
 }
 const button = {

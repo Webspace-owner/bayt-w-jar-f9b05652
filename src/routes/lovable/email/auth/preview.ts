@@ -18,7 +18,7 @@ const EMAIL_TEMPLATES: Record<string, React.ComponentType<any>> = {
 }
 
 // Configuration
-const SITE_NAME = "bayt-w-jar"
+const SITE_NAME = "دار"
 const ROOT_DOMAIN = "dar-eg.online"
 
 // Sample data for preview mode ONLY (not used in actual email sending).
