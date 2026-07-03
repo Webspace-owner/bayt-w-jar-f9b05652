@@ -43,6 +43,11 @@ function redactEmail(email: string | null | undefined): string {
   return `${localPart[0]}***@${domain}`
 }
 
+function getConfirmationUrl(data: Record<string, unknown>): string | undefined {
+  const url = data.url || data.confirmation_url || data.confirmationUrl
+  return typeof url === 'string' && url.startsWith('http') ? url : undefined
+}
+
 export const Route = createFileRoute("/lovable/email/auth/webhook")({
   server: {
     handlers: {
@@ -131,12 +136,21 @@ export const Route = createFileRoute("/lovable/email/auth/webhook")({
           )
         }
 
+        const confirmationUrl = getConfirmationUrl(payload.data)
+        if (emailType !== 'reauthentication' && !confirmationUrl) {
+          console.error('Auth email payload missing confirmation URL', { emailType, run_id })
+          return Response.json(
+            { error: 'Invalid webhook payload' },
+            { status: 400 }
+          )
+        }
+
         // Build template props from payload.data (HookData structure)
         const templateProps = {
           siteName: SITE_NAME,
           siteUrl: `https://${ROOT_DOMAIN}`,
           recipient: payload.data.email,
-          confirmationUrl: payload.data.url,
+          confirmationUrl,
           token: payload.data.token,
           email: payload.data.email,
           oldEmail: payload.data.old_email,
