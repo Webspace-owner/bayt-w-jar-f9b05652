@@ -44,7 +44,7 @@ function redactEmail(email: string | null | undefined): string {
 }
 
 function getConfirmationUrl(data: Record<string, unknown>): string | undefined {
-  const url = data.url || data.confirmation_url || data.confirmationUrl
+  const url = (data as any).url || (data as any).confirmation_url || (data as any).confirmationUrl
   return typeof url === 'string' && url.startsWith('http') ? url : undefined
 }
 
@@ -139,10 +139,7 @@ export const Route = createFileRoute("/lovable/email/auth/webhook")({
         const confirmationUrl = getConfirmationUrl(payload.data)
         if (emailType !== 'reauthentication' && !confirmationUrl) {
           console.error('Auth email payload missing confirmation URL', { emailType, run_id })
-          return Response.json(
-            { error: 'Invalid webhook payload' },
-            { status: 400 }
-          )
+          return Response.json({ error: 'Invalid webhook payload' }, { status: 400 })
         }
 
         // Build template props from payload.data (HookData structure)

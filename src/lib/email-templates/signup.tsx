@@ -48,6 +48,11 @@ export const SignupEmail = ({
         <Button style={button} href={confirmationUrl}>
           تأكيد البريد
         </Button>
+        <Text style={fallback}>
+          لو الزر مش شغال، افتح الرابط ده في المتصفح:
+          <br />
+          <Link href={confirmationUrl} style={link}>{confirmationUrl}</Link>
+        </Text>
         <Text style={footer}>
           لو مش إنت اللي عملت الحساب، تجاهل الإيميل ده.
         </Text>
@@ -60,25 +65,9 @@ export default SignupEmail
 
 const main = { backgroundColor: '#ffffff', fontFamily: 'Tahoma, Arial, sans-serif' }
 const container = { padding: '20px 25px' }
-const h1 = {
-  fontSize: '22px',
-  fontWeight: 'bold' as const,
-  color: '#000000',
-  margin: '0 0 20px',
-}
-const text = {
-  fontSize: '14px',
-  color: '#55575d',
-  lineHeight: '1.7',
-  margin: '0 0 25px',
-}
-const link = { color: 'inherit', textDecoration: 'underline' }
-const button = {
-  backgroundColor: '#000000',
-  color: '#ffffff',
-  fontSize: '14px',
-  borderRadius: '8px',
-  padding: '12px 20px',
-  textDecoration: 'none',
-}
+const h1 = { fontSize: '22px', fontWeight: 'bold' as const, color: '#000000', margin: '0 0 20px' }
+const text = { fontSize: '14px', color: '#55575d', lineHeight: '1.7', margin: '0 0 25px' }
+const link = { color: 'inherit', textDecoration: 'underline', wordBreak: 'break-all' as const }
+const button = { backgroundColor: '#000000', color: '#ffffff', fontSize: '14px', borderRadius: '8px', padding: '12px 20px', textDecoration: 'none' }
+const fallback = { fontSize: '12px', color: '#777777', lineHeight: '1.7', margin: '20px 0 0' }
 const footer = { fontSize: '12px', color: '#999999', margin: '30px 0 0' }
