@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as VerifyEmailRouteImport } from './routes/verify-email'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as NewListingRouteImport } from './routes/new-listing'
 import { Route as MyListingsRouteImport } from './routes/my-listings'
@@ -19,11 +20,15 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ListingIdRouteImport } from './routes/listing.$id'
 import { Route as EditListingIdRouteImport } from './routes/edit-listing.$id'
 import { Route as ConversationIdRouteImport } from './routes/conversation.$id'
-import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
 import { Route as LovableEmailQueueProcessRouteImport } from './routes/lovable/email/queue/process'
 import { Route as LovableEmailAuthWebhookRouteImport } from './routes/lovable/email/auth/webhook'
 import { Route as LovableEmailAuthPreviewRouteImport } from './routes/lovable/email/auth/preview'
 
+const VerifyEmailRoute = VerifyEmailRouteImport.update({
+  id: '/verify-email',
+  path: '/verify-email',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
   path: '/reset-password',
@@ -74,11 +79,6 @@ const ConversationIdRoute = ConversationIdRouteImport.update({
   path: '/conversation/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthCallbackRoute = AuthCallbackRouteImport.update({
-  id: '/callback',
-  path: '/callback',
-  getParentRoute: () => AuthRoute,
-} as any)
 const LovableEmailQueueProcessRoute =
   LovableEmailQueueProcessRouteImport.update({
     id: '/lovable/email/queue/process',
@@ -99,12 +99,12 @@ const LovableEmailAuthPreviewRoute = LovableEmailAuthPreviewRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
-  '/auth': typeof AuthRouteWithChildren
+  '/auth': typeof AuthRoute
   '/messages': typeof MessagesRoute
   '/my-listings': typeof MyListingsRoute
   '/new-listing': typeof NewListingRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/auth/callback': typeof AuthCallbackRoute
+  '/verify-email': typeof VerifyEmailRoute
   '/conversation/$id': typeof ConversationIdRoute
   '/edit-listing/$id': typeof EditListingIdRoute
   '/listing/$id': typeof ListingIdRoute
@@ -115,12 +115,12 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
-  '/auth': typeof AuthRouteWithChildren
+  '/auth': typeof AuthRoute
   '/messages': typeof MessagesRoute
   '/my-listings': typeof MyListingsRoute
   '/new-listing': typeof NewListingRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/auth/callback': typeof AuthCallbackRoute
+  '/verify-email': typeof VerifyEmailRoute
   '/conversation/$id': typeof ConversationIdRoute
   '/edit-listing/$id': typeof EditListingIdRoute
   '/listing/$id': typeof ListingIdRoute
@@ -132,12 +132,12 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
-  '/auth': typeof AuthRouteWithChildren
+  '/auth': typeof AuthRoute
   '/messages': typeof MessagesRoute
   '/my-listings': typeof MyListingsRoute
   '/new-listing': typeof NewListingRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/auth/callback': typeof AuthCallbackRoute
+  '/verify-email': typeof VerifyEmailRoute
   '/conversation/$id': typeof ConversationIdRoute
   '/edit-listing/$id': typeof EditListingIdRoute
   '/listing/$id': typeof ListingIdRoute
@@ -155,7 +155,7 @@ export interface FileRouteTypes {
     | '/my-listings'
     | '/new-listing'
     | '/reset-password'
-    | '/auth/callback'
+    | '/verify-email'
     | '/conversation/$id'
     | '/edit-listing/$id'
     | '/listing/$id'
@@ -171,7 +171,7 @@ export interface FileRouteTypes {
     | '/my-listings'
     | '/new-listing'
     | '/reset-password'
-    | '/auth/callback'
+    | '/verify-email'
     | '/conversation/$id'
     | '/edit-listing/$id'
     | '/listing/$id'
@@ -187,7 +187,7 @@ export interface FileRouteTypes {
     | '/my-listings'
     | '/new-listing'
     | '/reset-password'
-    | '/auth/callback'
+    | '/verify-email'
     | '/conversation/$id'
     | '/edit-listing/$id'
     | '/listing/$id'
@@ -199,11 +199,12 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRoute
-  AuthRoute: typeof AuthRouteWithChildren
+  AuthRoute: typeof AuthRoute
   MessagesRoute: typeof MessagesRoute
   MyListingsRoute: typeof MyListingsRoute
   NewListingRoute: typeof NewListingRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  VerifyEmailRoute: typeof VerifyEmailRoute
   ConversationIdRoute: typeof ConversationIdRoute
   EditListingIdRoute: typeof EditListingIdRoute
   ListingIdRoute: typeof ListingIdRoute
@@ -214,6 +215,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/verify-email': {
+      id: '/verify-email'
+      path: '/verify-email'
+      fullPath: '/verify-email'
+      preLoaderRoute: typeof VerifyEmailRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/reset-password': {
       id: '/reset-password'
       path: '/reset-password'
@@ -284,13 +292,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ConversationIdRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/auth/callback': {
-      id: '/auth/callback'
-      path: '/callback'
-      fullPath: '/auth/callback'
-      preLoaderRoute: typeof AuthCallbackRouteImport
-      parentRoute: typeof AuthRoute
-    }
     '/lovable/email/queue/process': {
       id: '/lovable/email/queue/process'
       path: '/lovable/email/queue/process'
@@ -315,24 +316,15 @@ declare module '@tanstack/react-router' {
   }
 }
 
-interface AuthRouteChildren {
-  AuthCallbackRoute: typeof AuthCallbackRoute
-}
-
-const AuthRouteChildren: AuthRouteChildren = {
-  AuthCallbackRoute: AuthCallbackRoute,
-}
-
-const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
-  AuthRoute: AuthRouteWithChildren,
+  AuthRoute: AuthRoute,
   MessagesRoute: MessagesRoute,
   MyListingsRoute: MyListingsRoute,
   NewListingRoute: NewListingRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  VerifyEmailRoute: VerifyEmailRoute,
   ConversationIdRoute: ConversationIdRoute,
   EditListingIdRoute: EditListingIdRoute,
   ListingIdRoute: ListingIdRoute,
@@ -343,3 +335,12 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
