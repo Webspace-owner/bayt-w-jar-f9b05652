@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as VerifyEmailRouteImport } from './routes/verify-email'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as NewListingRouteImport } from './routes/new-listing'
 import { Route as MyListingsRouteImport } from './routes/my-listings'
@@ -23,6 +24,11 @@ import { Route as LovableEmailQueueProcessRouteImport } from './routes/lovable/e
 import { Route as LovableEmailAuthWebhookRouteImport } from './routes/lovable/email/auth/webhook'
 import { Route as LovableEmailAuthPreviewRouteImport } from './routes/lovable/email/auth/preview'
 
+const VerifyEmailRoute = VerifyEmailRouteImport.update({
+  id: '/verify-email',
+  path: '/verify-email',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
   path: '/reset-password',
@@ -98,6 +104,7 @@ export interface FileRoutesByFullPath {
   '/my-listings': typeof MyListingsRoute
   '/new-listing': typeof NewListingRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/verify-email': typeof VerifyEmailRoute
   '/conversation/$id': typeof ConversationIdRoute
   '/edit-listing/$id': typeof EditListingIdRoute
   '/listing/$id': typeof ListingIdRoute
@@ -113,6 +120,7 @@ export interface FileRoutesByTo {
   '/my-listings': typeof MyListingsRoute
   '/new-listing': typeof NewListingRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/verify-email': typeof VerifyEmailRoute
   '/conversation/$id': typeof ConversationIdRoute
   '/edit-listing/$id': typeof EditListingIdRoute
   '/listing/$id': typeof ListingIdRoute
@@ -129,6 +137,7 @@ export interface FileRoutesById {
   '/my-listings': typeof MyListingsRoute
   '/new-listing': typeof NewListingRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/verify-email': typeof VerifyEmailRoute
   '/conversation/$id': typeof ConversationIdRoute
   '/edit-listing/$id': typeof EditListingIdRoute
   '/listing/$id': typeof ListingIdRoute
@@ -146,6 +155,7 @@ export interface FileRouteTypes {
     | '/my-listings'
     | '/new-listing'
     | '/reset-password'
+    | '/verify-email'
     | '/conversation/$id'
     | '/edit-listing/$id'
     | '/listing/$id'
@@ -161,6 +171,7 @@ export interface FileRouteTypes {
     | '/my-listings'
     | '/new-listing'
     | '/reset-password'
+    | '/verify-email'
     | '/conversation/$id'
     | '/edit-listing/$id'
     | '/listing/$id'
@@ -176,6 +187,7 @@ export interface FileRouteTypes {
     | '/my-listings'
     | '/new-listing'
     | '/reset-password'
+    | '/verify-email'
     | '/conversation/$id'
     | '/edit-listing/$id'
     | '/listing/$id'
@@ -192,6 +204,7 @@ export interface RootRouteChildren {
   MyListingsRoute: typeof MyListingsRoute
   NewListingRoute: typeof NewListingRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  VerifyEmailRoute: typeof VerifyEmailRoute
   ConversationIdRoute: typeof ConversationIdRoute
   EditListingIdRoute: typeof EditListingIdRoute
   ListingIdRoute: typeof ListingIdRoute
@@ -202,6 +215,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/verify-email': {
+      id: '/verify-email'
+      path: '/verify-email'
+      fullPath: '/verify-email'
+      preLoaderRoute: typeof VerifyEmailRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/reset-password': {
       id: '/reset-password'
       path: '/reset-password'
@@ -304,6 +324,7 @@ const rootRouteChildren: RootRouteChildren = {
   MyListingsRoute: MyListingsRoute,
   NewListingRoute: NewListingRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  VerifyEmailRoute: VerifyEmailRoute,
   ConversationIdRoute: ConversationIdRoute,
   EditListingIdRoute: EditListingIdRoute,
   ListingIdRoute: ListingIdRoute,

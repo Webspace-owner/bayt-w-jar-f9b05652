@@ -48,7 +48,7 @@ function AuthPage() {
           password: v.password,
           options: {
             data: { full_name: v.fullName },
-            emailRedirectTo: `${window.location.origin}/`,
+            emailRedirectTo: `${window.location.origin}/verify-email?next=/`,
           },
         });
         if (error) throw error;
