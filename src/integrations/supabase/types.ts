@@ -153,6 +153,7 @@ export type Database = {
           price: number
           property_type: Database["public"]["Enums"]["property_type"]
           purpose: Database["public"]["Enums"]["listing_purpose"]
+          status: string
           title: string
           updated_at: string
           user_id: string
@@ -173,6 +174,7 @@ export type Database = {
           price: number
           property_type: Database["public"]["Enums"]["property_type"]
           purpose: Database["public"]["Enums"]["listing_purpose"]
+          status?: string
           title: string
           updated_at?: string
           user_id: string
@@ -193,6 +195,7 @@ export type Database = {
           price?: number
           property_type?: Database["public"]["Enums"]["property_type"]
           purpose?: Database["public"]["Enums"]["listing_purpose"]
+          status?: string
           title?: string
           updated_at?: string
           user_id?: string
@@ -236,6 +239,7 @@ export type Database = {
           created_at: string
           full_name: string | null
           id: string
+          is_suspended: boolean
           phone: string | null
           updated_at: string
         }
@@ -243,6 +247,7 @@ export type Database = {
           created_at?: string
           full_name?: string | null
           id: string
+          is_suspended?: boolean
           phone?: string | null
           updated_at?: string
         }
@@ -250,6 +255,7 @@ export type Database = {
           created_at?: string
           full_name?: string | null
           id?: string
+          is_suspended?: boolean
           phone?: string | null
           updated_at?: string
         }
